@@ -19,17 +19,19 @@ def importData():
     return(out)
 
 def convertData(obj):
+    i = 0
     out = list()
     outConverted = list()
     for data in obj['Time Series FX (5min)']:
         for tempo in obj['Time Series FX (5min)'][data]:
             out.append(str(obj['Time Series FX (5min)'][data][tempo]))
-    for i in range(0, len(out), 4):
-        outConverted.append(out[i:i+4])
+        out.append(list(obj['Time Series FX (5min)'].keys())[i].split(' ')[1].replace(':','')[0:4])
+        i+=1;
+    for i in range(0, len(out), 5):
+        outConverted.append(out[i:i+5])
     return(outConverted)
 
-getdata()
 dados = convertData(importData())
-dados = pd.DataFrame(np.array(dados), columns = ['open','high','low','close'])
+dados = pd.DataFrame(np.array(dados), columns = ['Abertura','Alta','Baixa','Fechamento','Hora'])
 
 print(dados)
